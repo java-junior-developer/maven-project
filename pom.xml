@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- GAV  - обязательная информация -->
+    <groupId>ru.ifmo</groupId> <!-- идентификатор разработика,
+                                    обычно доменное имя компании -->
+    <artifactId>maven-project</artifactId> <!-- идентификатор проекта,
+                                            обычно название проекта-->
+    <version>1.0-SNAPSHOT</version> <!-- версия проекта -->
+    <!-- -SNAPSHOT говорит о том, что версия в разработке и может измениться -->
+
+    <properties>
+        <!-- минимальная версия компилятора -->
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    </properties>
+
+    <!-- maven репозитории -->
+    <!-- 1. локальный (на каждого пользователя) .m2/repository  -->
+    <!-- 2. центральный (глобальный) -->
+    <!-- 3. корпоративный -->
+
+    <!-- для установки зависимости необходимо указать,
+         groupId, artifactId, желательно указывать версию -->
+    <!-- <version>1.0-SNAPSHOT</version> -->
+    <!-- <version>1.0</version> -->
+
+
+    <build>
+        <!-- подключение плагинов -->
+        <plugins> <!-- все, которые нужны проекту -->
+            <plugin> <!-- описание отдельного плагина -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+
+                <configuration> <!-- дополнительная настройка -->
+                    <show>private</show>
+                </configuration>
+
+                <!-- привязка к фазам сборки -->
+                <executions> <!-- все привязки -->
+                    <execution> <!-- привязка задачи плагина к определенным фазе  -->
+                        <phase>package</phase> <!-- название фазы сборки -->
+                        <goals> <!-- все задачи -->
+                            <goal>aggregate</goal> <!-- одна задача -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.1</version>
+
+                <configuration>
+                    <locales>en,fr</locales>
+                </configuration>
+            </plugin>
+
+            <!-- вместо jar плагина-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.3</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <!-- чтобы jar стал исполняемым -->
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>ru.ifmo.lesson.Application</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+    </build>
+<!-- JAVA_HOME  C:\Program Files\Java\jdk-18\bin-->
+</project>
