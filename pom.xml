@@ -11,6 +11,17 @@
     <version>1.0-SNAPSHOT</version> <!-- версия проекта -->
     <!-- -SNAPSHOT говорит о том, что версия в разработке и может измениться -->
 
+    <!-- Дополнительная информация о проекте -->
+    <name>Maven Project</name> <!-- название проекта -->
+    <description>About</description> <!-- описание проекта -->
+    <url>https://project.ru</url> <!-- ссылка на проект -->
+
+    <!-- тип файла, который будет доступен в результате сборки
+         по умолчанию - jar
+         pom (для родителей в модульной сборке)
+         war (для web приложений) -->
+    <packaging>jar</packaging>
+
     <properties>
         <!-- минимальная версия компилятора -->
         <maven.compiler.source>18</maven.compiler.source>
@@ -30,6 +41,53 @@
     <!-- <version>1.0-SNAPSHOT</version> -->
     <!-- <version>1.0</version> -->
 
+    <dependencies> <!-- все зависимости -->
+        <dependency> <!-- одна зависимость -->
+            <!-- обязательные данные для подключения зависимости -->
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <!-- версию тоже желательно указывать -->
+            <version>4.5.13</version>
+            <!-- Область видимости зависимостей,
+            по умолчанию <scope>compile</scope> - зависимость доступна во время сборки,
+                                   выполнения, тестирования
+
+            <scope>test</scope> - библиотека доступна только при тестировании
+            <scope>runtime</scope> - библиотека доступна во время выполнения / тесьтрования
+                не доступна на этапе сборки, нет прямого доступа к классам
+                во время разработки
+            <scope>provided</scope> - классы библиотеки не попадут в итоговый
+            jar файл. Обычно, это библиотеки - генераторы кода
+           <scope>system</scope> используется вместе с тегом
+           <systemPath>путь к библиотеке на диске</systemPath>
+            -->
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <!-- подключение плагинов -->
@@ -82,15 +140,24 @@
                 <configuration>
                     <!-- чтобы jar стал исполняемым -->
                     <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>ru.ifmo.lesson.Application</mainClass>
                         </transformer>
                     </transformers>
                 </configuration>
 
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
 
         </plugins>
     </build>
-<!-- JAVA_HOME  C:\Program Files\Java\jdk-18\bin-->
+
 </project>
